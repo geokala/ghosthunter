@@ -1,0 +1,100 @@
+#! /usr/bin/env python
+from random import choice
+
+
+def main():
+    house = {
+        'hall': {
+            'exit': {
+                'n': 'dining room',
+                'e': 'living room',
+                'w': 'bedroom',
+            },
+            'ghost': 'safe',
+        },
+        'dining room': {
+            'exit': {
+                's': 'hall',
+                'w': 'kitchen',
+            },
+            'ghost': None,
+        },
+        'living room': {
+            'exit': {
+                'w': 'hall',
+            },
+            'ghost': None,
+        },
+        'bedroom': {
+            'exit': {
+                'e': 'hall',
+                'w': 'garden',
+            },
+            'ghost': None,
+        },
+        'kitchen': {
+            'exit': {
+                'e': 'dining room',
+            },
+            'ghost': None,
+        },
+        'garden': {
+            'exit': {
+                'e': 'bedroom',
+            },
+            'ghost': None,
+        },
+    }
+
+    score = 0
+
+    for i in (1, 2):
+        room = choice(list(house.keys()))
+        while house[room]['ghost'] is not None:
+            room = choice(list(house.keys()))
+        house[room]['ghost'] = 'white'
+
+    room = choice(list(house.keys()))
+    while house[room]['ghost'] is not None:
+        room = choice(list(house.keys()))
+    house[room]['ghost'] = 'silver'
+
+    room = choice(list(house.keys()))
+    while house[room]['ghost'] is not None:
+        room = choice(list(house.keys()))
+    house[room]['ghost'] = 'red'
+
+    print('Welcome to the haunted house, ghost buster.')
+    print('Watch out for the red ghost!')
+    room = 'hall'
+    while score >= 0 and score < 2:
+        print('You are in the %s' % room)
+        print('Which direction would you like to go?')
+        possible = ','.join(house[room]['exit'])
+        direction = input('Choose from %s: ' % possible).lower()
+        if direction not in house[room]['exit']:
+            print('There is nothing in that direction!')
+        else:
+            room = house[room]['exit'][direction]
+
+            ghost = house[room]['ghost']
+            if ghost not in (None, 'safe'):
+                if ghost == 'white':
+                    print('You caught a scary ghost!')
+                    score += 1
+                elif ghost == 'silver':
+                    print('YIKES! A ghost scared you then escaped!')
+                    score -= 1
+                elif ghost == 'red':
+                    print('Oh no! The evil red ghost is here! RUN AWAY!')
+                    score -= 2
+                house[room]['ghost'] = None
+
+    print('You finished in the house.')
+    if score == 2:
+        print('You caught the two ghosts you were after- well done!')
+    else:
+        print("Well... that didn't go very well... you scored %s" % score)
+
+if __name__ == '__main__':
+    main()
