@@ -1,3 +1,5 @@
 Simple ghost hunting game.
 
 Needs some reworking, and something to make it really a game (not just a set of dice rolls where two rolls of 6 win, but one roll of 1 loses).
+
+Needs some improvement to be more friendly to those relatively new to python, as that is its intent.
